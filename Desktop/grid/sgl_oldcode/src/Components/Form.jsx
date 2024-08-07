@@ -140,43 +140,43 @@ const Form = ({ clientType }) => {
     }));
   };
 
-  // const validateForm = () => {
-  //   const newErrors = {};
+  const validateForm = () => {
+    const newErrors = {};
 
-  //   if (!formData.email) newErrors.email = 'Email is required';
-  //   if (!formData.firstName) newErrors.firstName = 'First Name is required';
-  //   if (clientType === 'Individual' && !formData.lastName) newErrors.lastName = 'Last Name is required';
-  //   if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
-  //   if (!formData.organizationName) newErrors.organizationName = 'Organization Name is required';
-  //   if (formData.services.length === 0) newErrors.services = 'At least one service must be selected';
-  //   if (formData.individuals.length === 0) newErrors.individuals = 'At least one individual must be selected';
+    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.firstName) newErrors.firstName = 'First Name is required';
+    if (clientType === 'Individual' && !formData.lastName) newErrors.lastName = 'Last Name is required';
+    if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
+    if (!formData.organizationName) newErrors.organizationName = 'Organization Name is required';
+    if (formData.services.length === 0) newErrors.services = 'At least one service must be selected';
+    if (formData.individuals.length === 0) newErrors.individuals = 'At least one individual must be selected';
 
-  //   // Validate custom questions
-  //   defaultSettings.feedbackQuestions.forEach(question => {
-  //     if (!formData.customResponses[question]) {
-  //       newErrors[`customResponse-${question}`] = `Response for "${question}" is required`;
-  //     }
-  //   });
+    // Validate custom questions
+    defaultSettings.feedbackQuestions.forEach(question => {
+      if (!formData.customResponses[question]) {
+        newErrors[`customResponse-${question}`] = `Response for "${question}" is required`;
+      }
+    });
 
-  //   if (!formData.recommend) newErrors.recommend = 'Recommendation is required';
-  //   if (!formData.termsAccepted) newErrors.termsAccepted = 'You must accept the terms and conditions';
+    if (!formData.recommend) newErrors.recommend = 'Recommendation is required';
+    if (!formData.termsAccepted) newErrors.termsAccepted = 'You must accept the terms and conditions';
 
-  //   setErrors(newErrors);
-  //   return Object.keys(newErrors).length === 0;
-  // };
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // if (!validateForm()) {
-    //   Swal.fire({
-    //     title: 'Error',
-    //     text: 'Please fill out all required fields',
-    //     icon: 'error',
-    //     confirmButtonText: 'OK'
-    //   });
-    //   return;
-    // }
+    if (!validateForm()) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Please fill out all required fields',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
   
     setLoading(true);
   
@@ -252,7 +252,7 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
           {clientType === 'Individual' && (
             <>
               <div className="mb-4">
-                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title</label>
+                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Title <span className="text-red-500">*</span></label>
                 <select
                   name="title"
                   value={formData.title}
@@ -269,7 +269,7 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
                     <option value="" disabled>No options available</option>
                   )}
                 </select>
-                {/* {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>} */}
+                {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
               </div>
 
               <div className="mb-4">
@@ -286,32 +286,17 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
               </div>
 
               <div className="mb-4">
-                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Last Name</label>
+                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Last Name <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
                   className={`mt-1 block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-300' : 'border-gray-300 bg-white text-black'}`}
+                  required
                 />
                 {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
               </div>
-
-              <div className="mb-4">
-  <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-    Email <span className="text-red-500">*</span>
-  </label>
-  <input
-    type="email"
-    name="email"
-    value={formData.email}
-    onChange={handleChange}
-    className={`mt-1 block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-300' : 'border-gray-300 bg-white text-black'}`}
-    required
-  />
-  {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-</div>
-
             </>
           )}
 
@@ -331,7 +316,7 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
               </div>
 
               <div className="mb-4">
-                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Company Name <span className="text-red-500">*</span></label>
+                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Company  Name <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   name="firstName"
@@ -357,9 +342,23 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
               </div>
             </>
           )}
+          
 
           <div className="mb-4">
-            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>The following services provided by Somireddy Law Group that you have received. <span className="text-red-500">*</span></label>
+            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Office Name <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              name="organizationName"
+              value={formData.organizationName}
+              onChange={handleChange}
+              className={`mt-1 block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-300' : 'border-gray-300 bg-white text-black'}`}
+              required
+            />
+            {errors.organizationName && <p className="text-red-500 text-sm">{errors.organizationName}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>The following services are provided by Somireddy Law Group that you have received. <span className="text-red-500">*</span></label>
             <div className="mt-2">
               {formData.services.map((service) => (
                 <div key={service} className="flex items-center">
@@ -371,7 +370,7 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
                     onChange={(e) => handleCheckboxChange(e, 'services')}
                     className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
                   />
-                  <label className={`ml-2 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{service}</label>
+                  <label className={`ml-2 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{service}</label>
                 </div>
               ))}
             </div>
@@ -379,7 +378,7 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
           </div>
 
           <div className="mb-4">
-            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>These are the Employees who worked on your cases <span className="text-red-500">*</span></label>
+            <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>The Following names of the Employees who worked on your cases <span className="text-red-500">*</span></label>
             <div className="relative">
               <button
                 type="button"
@@ -419,21 +418,7 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
             <div key={individual}>
               <h3 className="text-lg font-semibold mb-2">{individual}</h3>
 
-              <div className="mb-4">
-                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Please provide any feedback that would be helpful for us to improve our services <span className="text-red-500">*</span></label>
-                <textarea
-                  name={`feedback-${individual}`}
-                  value={formData.feedbacks[individual] || ''}
-                  onChange={(e) => handleFeedbackChange(e, individual)}
-                  className={`mt-1 block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-300' : 'border-gray-300 bg-white text-black'}`}
-                />
-                {errors[`feedback-${individual}`] && <p className="text-red-500 text-sm">{errors[`feedback-${individual}`]}</p>}
-              </div>
-            </div>
-          ))}
-
-          {/* Render custom feedback questions */}
-          {defaultSettings?.feedbackQuestions?.map((question, index) => (
+              {defaultSettings?.feedbackQuestions?.map((question, index) => (
             <div key={index} className="mb-4">
               <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 {question} <span className="text-red-500">*</span>
@@ -451,6 +436,23 @@ We would greatly appreciate if you could kindly dedicate a few minutes of your v
               {errors[`customResponse-${question}`] && <p className="text-red-500 text-sm">{errors[`customResponse-${question}`]}</p>}
             </div>
           ))}
+
+              <div className="mb-4">
+                <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Please provide any feedback that would be helpful for us to improve our services <span className="text-red-500">*</span></label>
+                <textarea
+                  name={`feedback-${individual}`}
+                  value={formData.feedbacks[individual] || ''}
+                  onChange={(e) => handleFeedbackChange(e, individual)}
+                  className={`mt-1 block w-full p-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-300' : 'border-gray-300 bg-white text-black'}`}
+                  required
+                />
+                {errors[`feedback-${individual}`] && <p className="text-red-500 text-sm">{errors[`feedback-${individual}`]}</p>}
+              </div>
+            </div>
+          ))}
+
+          {/* Render custom feedback questions */}
+          
 
           <div className="mb-4">
             <label className={`block text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Would you recommend our services to your friends and family? <span className="text-red-500">*</span></label>

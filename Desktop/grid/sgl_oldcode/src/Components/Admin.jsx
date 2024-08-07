@@ -28,6 +28,8 @@ const Admin = () => {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [clientType, setClientType] = useState('Individual'); // New state to track client type
 
+const [formPreviewData, setFormPreviewData] = useState({});
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,6 +91,8 @@ const Admin = () => {
     fetchDefaultSettings();
   }, []);
 
+
+  
   const handleClientTypeChange = (type) => {
     setClientType(type);
     if (type === 'Corporate') {
